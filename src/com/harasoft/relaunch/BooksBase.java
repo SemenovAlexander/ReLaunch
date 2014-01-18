@@ -1,19 +1,16 @@
 package com.harasoft.relaunch;
 
-import java.io.ByteArrayOutputStream;
 import java.util.regex.Pattern;
-import ebook.EBook;
-import ebook.Person;
-import ebook.parser.InstantParser;
-import ebook.parser.Parser;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import ebook.EBook;
+import ebook.Person;
+import ebook.parser.InstantParser;
+import ebook.parser.Parser;
 
 public class BooksBase {
 	Context context;
@@ -171,7 +168,11 @@ public class BooksBase {
 		eBook = getBookByFileName(fileName);
 		if (!eBook.isOk) {
 			Parser parser = new InstantParser();
-			eBook = parser.parse(fileName);
+			try{
+				eBook = parser.parse(fileName);
+			} catch (Exception e) {
+ 				e.printStackTrace();
+			}
 			if (eBook.isOk) {
 				if ((eBook.sequenceNumber != null)
 						&& (eBook.sequenceNumber.length() == 1))
